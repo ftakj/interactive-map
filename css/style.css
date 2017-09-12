@@ -1,0 +1,22 @@
+html, body, .container {
+  height: 100%;
+  margin: none;
+}
+
+.menu {
+  height: 98%;
+  position: relative;
+  background-color: black;
+  width: 19.5%;
+  display: inline-block;
+}
+
+.map {
+  overflow-y: auto;
+  width: 80%;
+  height: 98%;
+  position: absolute;
+  background-color: #155219;
+  float: left;
+  display: inline-block;
+}
