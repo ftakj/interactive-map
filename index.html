@@ -9,15 +9,16 @@
   </head>
   <body>
   <div class="container">
-    <div class="menu">
+    <div id="menu">
       Hello World
     </div>
-    <div class="map">
-      I'm the map!
-    </div>
+    <div id="map"></div>
   </div>
-  <script async defer
-   src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyAz4dm2Y0kA-xlqglKj-eFd6KEb0p9WOTM&callback=initMap">
- </script>
-    <script type='text/javascript' src='js/knockout-3.4.2.js'></script>
+  <script async defer type='text/javascript' src='js/googlemaps.js'></script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz4dm2Y0kA-xlqglKj-eFd6KEb0p9WOTM&v=3&callback=initMap">
+    </script>
+
+  <script type='text/javascript' src='js/knockout-3.4.2.js'></script>
   </body>
