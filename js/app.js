@@ -38,14 +38,28 @@ function initMap() {
 
 var ViewModel = function() {
   var self = this;
-
+  // Create markerList to display on menu
   this.markerList = ko.observableArray([]);
+  // For each marker push it to the markerList array
   initialMarkers.forEach(function(thisMarker){
         self.markerList.push(new Marker(thisMarker));
         });
+  // Math logic to help set currentMarker to a random marker
+  this.getRandomMarker = function(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  // Set currentMarker to random marker on load
+  self.currentMarker = ko.observable( self.markerList()[self.getRandomMarker(0, 4)] );
+
+  // Set map name
   this.name=ko.observable('Anaheim');
 
-  }
+  // Set currentMarker to the button that was clicked
+  this.setCurrentMarker = function(clickedMarker) {
+    self.currentMarker(clickedMarker);
+  };
+
+};
 
 
 ko.applyBindings(new ViewModel())
