@@ -14,6 +14,10 @@ var initialData = {
       {title: 'Downtown Disney', location: {lat: 33.809209, lng: -117.923157}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}  ]
 };
 
+var foursquareInfo = function(data) {
+  var self = this;
+}
+
 
 function startMap() {
     var self = this;
