@@ -5,13 +5,13 @@ var clientSecret;
 var map;
 
 var initialData = {
-    filters: ["Choose a destination", "House of Mouse", "Theme Park #2", "The Big A", "Meetup central", "Outdoor shopping mall"],
+    filters: ["Choose a destination", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"],
     markers: [
-      {title: 'Disneyland', location: {lat: 33.812092, lng: -117.918974}, icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', nick: "House of Mouse"},
-      {title: 'California Adventure', location: {lat: 33.804220, lng: -117.920859}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', nick: "Theme Park #2"},
-      {title: 'Angel Stadium', location: {lat: 33.800308, lng: -117.882732}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', nick: "The Big A"},
-      {title: 'Anaheim Convention Center', location: {lat: 33.800672, lng: -117.920873}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', nick: "Meetup central"},
-      {title: 'Downtown Disney', location: {lat: 33.809209, lng: -117.923157}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', nick: "Outdoor shopping mall"}  ]
+      {title: 'Disneyland', location: {lat: 33.812092, lng: -117.918974}, icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'},
+      {title: 'California Adventure', location: {lat: 33.804220, lng: -117.920859}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'},
+      {title: 'Angel Stadium', location: {lat: 33.800308, lng: -117.882732}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'},
+      {title: 'Anaheim Convention Center', location: {lat: 33.800672, lng: -117.920873}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'},
+      {title: 'Downtown Disney', location: {lat: 33.809209, lng: -117.923157}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}  ]
 };
 
 
@@ -54,7 +54,7 @@ var ViewModel = function(data) {
             return self.markers();
         } else {
             return ko.utils.arrayFilter(self.markers(), function(i) {
-                return i.nick == filter;
+                return i.title == filter;
                        });
                    }
                });
