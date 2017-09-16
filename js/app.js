@@ -15,7 +15,7 @@ var initialData = {
 };
 
 
-function initMap() {
+function startMap() {
     var self = this;
     // Create a new map with zoom auto-set to 13
     map = new google.maps.Map(document.getElementById('map'), {
