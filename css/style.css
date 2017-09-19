@@ -7,16 +7,20 @@ html, body, .container {
   height: 98%;
   position: relative;
   background-color: #eeeeee;
-  width: 19.5%;
+  width: 39.5%;
   display: inline-block;
 }
 
 #map {
   overflow-y: auto;
-  width: 80%;
+  width: 60%;
   height: 98%;
   position: absolute;
-  background-color: #155219;
+  background-color: #fff;
   float: left;
   display: inline-block;
+}
+
+#error-code {
+  color: red;
 }
