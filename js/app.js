@@ -5,9 +5,7 @@ var clientSecret;
 var map;
 var $map = $('#map')
 
-var initialData = {
-    filters: ["Choose a destination", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"],
-    markers: [
+var markerData = [
       {
         title: 'Disneyland',
         lat: 33.812092,
@@ -36,13 +34,58 @@ var initialData = {
         title: 'Downtown Disney',
         lat: 33.809209,
         lng: -117.923157,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}  ]
-};
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
+      ];
+var filters = ["Choose a destination", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
 
-var foursquareInfo = function(data) {
-  var self = this;
+// Define Location class which will be used to link markers to foursquare
+var Location = function(data) {
+	var self = this;
+	this.title = data.title;
+	this.lat = data.lat;
+	this.lng = data.lng;
+	this.url = "";
+	this.street = "";
+	this.city = "";
+	this.phone = "";
+
+  this.visible = ko.observable(true);
+  // Generate foursquare API URL
+	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
+  this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
+  + clientSecret + '&v=' + foursquaredate + '&query=' + this.title;
+  // Generate foursquare API request using JQuery's .getJSON method
+	$.getJSON(foursquareURL).done(function(data) {
+		var results = data.response.venues[0];
+		self.url = results.url;
+		self.street = results.location.formattedAddress[0];
+    self.city = results.location.formattedAddress[1];
+    self.phone = results.contact.formattedPhone;
+    self.checkins = results.stats.checkinsCount;
+    self.twitter = results.contact.twitter;
+    // If there is no twitter handle return ""
+    if (typeof self.twitter === 'undefined'){
+			self.twitter = "";
+		} else {
+			self.twitter = "@" + self.twitter;
+		}
+    self.instagram = results.contact.instagram;
+    if (typeof self.instagram === 'undefined'){
+			self.instagram = "";
+		} else {
+			self.instagram = "@" + self.instagram;
+		}
+    self.herenow = results.hereNow.summary;
+    if(self.herenow === "Nobody here"){
+      self.herenow = "No one is currently checked in";
+    } else {
+      self.herenow = self.herenow + " checked in via foursquare";
+    }
+    console.log(self.herenow);
+	}).fail(function() {
+		alert("There was an error. Please try again");
+	});
 }
-
 
 function startMap() {
     var self = this;
@@ -53,10 +96,10 @@ function startMap() {
     });
         // iterate over locations array returning markers
         for (var i = 0; i < 5; i++){
-          var lat = initialData.markers[i].lat;
-          var lng = initialData.markers[i].lng;
-          var title = initialData.markers[i].title;
-          var icon = initialData.markers[i].icon;
+          var lat = markerData[i].lat;
+          var lng = markerData[i].lng;
+          var title = markerData[i].title;
+          var icon = markerData[i].icon;
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lng),
             animation: google.maps.Animation.DROP,
@@ -68,22 +111,31 @@ function startMap() {
     }
 
 
-var ViewModel = function(data) {
+var ViewModel = function() {
     var self = this;
+    this.markerList = ko.observableArray([]);
     // Store clientID and secret for foursquare API
     clientID = "JTNSWR0O4211C3F5BO0NP1SBLEQR0FH2APFYYPWLXD1OPFLD";
     clientSecret = "KEZMBI3TX1EK5NDBUTGAWM1L3NOX554HQPZOTOTIQDLTKQPF";
-    foursquaredate = 20170915;
+    // API date required by foursquare in all requests
+    foursquaredate = "20170915";
+    // For each object in our markerData array push it to the observableArray
+    markerData.forEach(function(markerItem){
+		self.markerList.push( new Location(markerItem));
+	});
     // Set timeout error message in case map fails to load
     setTimeout(function(){
         $map.append('<h2 align="center">' + "Failed to load map. Please wait a few seconds and try again" + '</h2>');
     }, 1500);
+    // Set the name of the map
     this.name = ko.observable('Map of Anaheim');
-    self.filters = ko.observableArray(data.filters);
+    // Assign the filters array
+    self.filters = ko.observableArray(filters);
     self.filter = ko.observable('');
-    self.markers = ko.observableArray(data.markers);
+    self.markers = ko.observableArray(markerData);
     self.filteredMarkers = ko.computed(function() {
         var filter = self.filter();
+        // If filter is empty or set to choose a destination, return all markers
         if (!filter || filter == "Choose a destination") {
             return self.markers();
         } else {
@@ -93,4 +145,4 @@ var ViewModel = function(data) {
                    }
                });
              }
-ko.applyBindings(new ViewModel(initialData));
+ko.applyBindings(new ViewModel());
