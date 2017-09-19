@@ -10,27 +10,32 @@ var initialData = {
     markers: [
       {
         title: 'Disneyland',
-        location: {lat: 33.812092, lng: -117.918974},
+        lat: 33.812092,
+        lng: -117.918974,
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
       },
       {
         title: 'California Adventure',
-        location: {lat: 33.804220, lng: -117.920859},
+        lat: 33.804220,
+        lng: -117.920859,
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       },
       {
         title: 'Angel Stadium',
-        location: {lat: 33.800308, lng: -117.882732},
+        lat: 33.800308,
+        lng: -117.882732,
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       },
       {
         title: 'Anaheim Convention Center',
-        location: {lat: 33.800672, lng: -117.920873},
+        lat: 33.800672,
+        lng: -117.920873,
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       },
       {
         title: 'Downtown Disney',
-        location: {lat: 33.809209, lng: -117.923157},
+        lat: 33.809209,
+        lng: -117.923157,
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}  ]
 };
 
@@ -48,11 +53,12 @@ function startMap() {
     });
         // iterate over locations array returning markers
         for (var i = 0; i < 5; i++){
-          var position = initialData.markers[i].location;
+          var lat = initialData.markers[i].lat;
+          var lng = initialData.markers[i].lng;
           var title = initialData.markers[i].title;
           var icon = initialData.markers[i].icon;
           var marker = new google.maps.Marker({
-            position: position,
+            position: new google.maps.LatLng(lat, lng),
             animation: google.maps.Animation.DROP,
             title: title,
             map: map,
@@ -70,7 +76,7 @@ var ViewModel = function(data) {
     foursquaredate = 20170915;
     // Set timeout error message in case map fails to load
     setTimeout(function(){
-        $map.append('<h2>' + "Failed to load map. Please wait a few seconds and try again" + '</h2>');
+        $map.append('<h2 align="center">' + "Failed to load map. Please wait a few seconds and try again" + '</h2>');
     }, 1500);
     this.name = ko.observable('Map of Anaheim');
     self.filters = ko.observableArray(data.filters);
