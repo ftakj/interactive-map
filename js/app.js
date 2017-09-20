@@ -90,10 +90,7 @@ var Location = function(data) {
 function startMap() {
     var self = this;
     // Create a new map with zoom auto-set to 13
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 33.812092, lng: -117.918974},
-      zoom: 13
-    });
+
         // iterate over locations array returning markers
         for (var i = 0; i < 5; i++){
           var lat = markerData[i].lat;
@@ -113,6 +110,12 @@ function startMap() {
 
 var ViewModel = function() {
     var self = this;
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 33.812092, lng: -117.918974},
+      zoom: 13
+    });
+
     this.markerList = ko.observableArray([]);
     // Store clientID and secret for foursquare API
     clientID = "JTNSWR0O4211C3F5BO0NP1SBLEQR0FH2APFYYPWLXD1OPFLD";
@@ -145,4 +148,7 @@ var ViewModel = function() {
                    }
                });
              }
-ko.applyBindings(new ViewModel());
+
+function loadApp() {
+  ko.applyBindings(new ViewModel());
+}
