@@ -44,6 +44,7 @@ var Location = function(data) {
 	this.title = data.title;
 	this.lat = data.lat;
 	this.lng = data.lng;
+  this.icon = data.icon;
 	this.url = "";
 	this.street = "";
 	this.city = "";
@@ -85,6 +86,13 @@ var Location = function(data) {
 	}).fail(function() {
 		alert("There was an error. Please try again");
 	});
+  var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(this.lat, this.lng),
+    animation: google.maps.Animation.BOUNCE,
+    title: this.title,
+    map: map,
+    icon: this.icon
+  });
 }
 
 function startMap() {
