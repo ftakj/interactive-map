@@ -95,27 +95,6 @@ var Location = function(data) {
   });
 }
 
-function startMap() {
-    var self = this;
-    // Create a new map with zoom auto-set to 13
-
-        // iterate over locations array returning markers
-        for (var i = 0; i < 5; i++){
-          var lat = markerData[i].lat;
-          var lng = markerData[i].lng;
-          var title = markerData[i].title;
-          var icon = markerData[i].icon;
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(lat, lng),
-            animation: google.maps.Animation.DROP,
-            title: title,
-            map: map,
-            icon: icon
-          });
-        }
-    }
-
-
 var ViewModel = function() {
     var self = this;
 
