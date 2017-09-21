@@ -3,38 +3,34 @@ var foursquaredate;
 var clientID;
 var clientSecret;
 var map;
-var $map = $('#map')
+var $map = $('#map');
 
 var markerData = [
       {
         title: 'Disneyland',
         lat: 33.812092,
         lng: -117.918974,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
       },
       {
         title: 'California Adventure',
         lat: 33.804220,
         lng: -117.920859,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       },
       {
         title: 'Angel Stadium',
         lat: 33.800308,
         lng: -117.882732,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       },
       {
         title: 'Anaheim Convention Center',
         lat: 33.800672,
         lng: -117.920873,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       },
       {
         title: 'Downtown Disney',
         lat: 33.809209,
         lng: -117.923157,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
+      }
       ];
 var filters = ["Choose a destination", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
 
@@ -44,13 +40,15 @@ var Location = function(data) {
 	this.title = data.title;
 	this.lat = data.lat;
 	this.lng = data.lng;
-  this.icon = data.icon;
+  this.icon = "";
 	this.url = "";
 	this.street = "";
 	this.city = "";
+  this.checkins = "";
+  this.twitter = "";
+  this.instagram = "";
 	this.phone = "";
-
-  this.visible = ko.observable(true);
+  this.show = ko.observable(true);
   // Generate foursquare API URL
 	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
@@ -82,17 +80,26 @@ var Location = function(data) {
     } else {
       self.herenow = self.herenow + " checked in via foursquare";
     }
-    console.log(self.herenow);
 	}).fail(function() {
 		alert("There was an error. Please try again");
 	});
-  var marker = new google.maps.Marker({
+
+  this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.lat, this.lng),
-    animation: google.maps.Animation.BOUNCE,
+    animation: google.maps.Animation.DROP,
     title: this.title,
     map: map,
-    icon: this.icon
   });
+  this.selectedMarker = ko.computed(function() {
+  if(this.show() == true) {
+    this.marker.setMap(map);
+  } else {
+    this.marker.setMap(null);
+  }
+  return true;
+}, this);
+
+  this.name = ko.observable('Map of Anaheim');
 }
 
 var ViewModel = function() {
@@ -120,20 +127,28 @@ var ViewModel = function() {
     // Set the name of the map
     this.name = ko.observable('Map of Anaheim');
     // Assign the filters array
-    self.filters = ko.observableArray(filters);
-    self.filter = ko.observable('');
-    self.markers = ko.observableArray(markerData);
+    self.filter = ko.observable();
     self.filteredMarkers = ko.computed(function() {
         var filter = self.filter();
         // If filter is empty or set to choose a destination, return all markers
-        if (!filter || filter == "Choose a destination") {
-            return self.markers();
+        if (filter == "Choose a destination") {
+          self.markerList().forEach(function(markerItem){
+				        markerItem.show(true);
+			});
+          var result = ko.observable( this.markerList());
+            return result();
         } else {
-            return ko.utils.arrayFilter(self.markers(), function(i) {
-                return i.title == filter;
+            return ko.utils.arrayFilter(self.markerList(), function(markerItem) {
+                if (markerItem.title == filter) {
+                  // Set marker to show on map
+                  markerItem.show(true);
+                  return markerItem;
+                } else {
+                  markerItem.show(false);
+                }
                        });
                    }
-               });
+               }, self);
              }
 
 function loadApp() {
