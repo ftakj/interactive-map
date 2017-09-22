@@ -90,10 +90,10 @@ var Location = function(data) {
   this.locationInfo = '<div class="street">' + self.street + '</div>' +
         '<div class="city">' + self.city + '</div>' +
         '<div class="phone">' + self.phone + '</div>' +
+        '<div class="checkedIn">' + self.herenow + '</div>' +
         '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:103px;height:32px;" /></a></div>' +
         '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:103px;height:32px;" /></a></div>' +
-        '<div class="url"><a href="' + self.url +'"><h3>' + "Website" + '</h3></a></div>' +
-        '<div class="checkedIn">' + self.herenow + '</div>';
+        '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
 
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.lat, this.lng),
