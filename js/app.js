@@ -71,27 +71,29 @@ var Location = function(data) {
     if (typeof self.twitter === 'undefined'){
 			self.twitter = "";
 		} else {
-			self.twitter = "@" + self.twitter;
+			self.twitter = self.twitter;
 		}
     self.instagram = results.contact.instagram;
     if (typeof self.instagram === 'undefined'){
 			self.instagram = "";
 		} else {
-			self.instagram = "@" + self.instagram;
+			self.instagram = self.instagram;
 		}
     self.herenow = results.hereNow.summary;
     if(self.herenow === "Nobody here"){
       self.herenow = "No one is currently checked in";
     } else {
-      self.herenow = self.herenow + " checked in via foursquare";
+      self.herenow = self.herenow;
     }
 	})
 });
-  console.log(self.url);
-  this.locationInfo = '<div class="url">' + "Website: " + '<a href="' + self.url +'">' + self.url + "</a></div>" +
-        '<div class="street">' + "Located at: " + self.street + "</div>" +
-        '<div class="city">' + "City of: " + self.city + "</div>" +
-        '<div class="phone">' + "Phone number: " + self.phone + "</div>";
+  this.locationInfo = '<div class="street">' + self.street + '</div>' +
+        '<div class="city">' + self.city + '</div>' +
+        '<div class="phone">' + self.phone + '</div>' +
+        '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="css/twitter.png" alt="Twitter icon" style="width:103px;height:32px;" /></a></div>' +
+        '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="css/instagram.png" alt="Instagram icon" style="width:103px;height:32px;" /></a></div>' +
+        '<div class="url"><a href="' + self.url +'"><h3>' + "Website" + '</h3></a></div>' +
+        '<div class="checkedIn">' + self.herenow + '</div>';
 
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.lat, this.lng),
