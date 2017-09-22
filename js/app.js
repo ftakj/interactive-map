@@ -49,6 +49,7 @@ var Location = function(data) {
   this.instagram = "";
 	this.phone = "";
   this.show = ko.observable(true);
+  this.showInfo = ko.observable(true);
   // Generate foursquare API URL
 	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
@@ -142,6 +143,7 @@ var ViewModel = function() {
         if (filter == "Choose a destination") {
           self.markerList().forEach(function(markerItem){
 				        markerItem.show(true);
+                markerItem.showInfo(false);
 			});
           var result = ko.observable( this.markerList());
             return result();
@@ -150,10 +152,11 @@ var ViewModel = function() {
                 if (markerItem.title == filter) {
                   // Set marker to show on map
                   markerItem.show(true);
-                  markerItem.url;
+                  markerItem.showInfo(true);
                   return markerItem;
                 } else {
                   markerItem.show(false);
+                  markerItem.showInfo(false);
                 }
                        });
                    }
