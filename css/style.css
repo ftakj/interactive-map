@@ -3,17 +3,21 @@ html, body, .container {
   margin: none;
 }
 
+.Hide {
+  display: none;
+}
+
 #menu {
   height: 98%;
   position: relative;
   background-color: #eeeeee;
-  width: 39.5%;
+  width: 29.5%;
   display: inline-block;
 }
 
 #map {
   overflow-y: auto;
-  width: 60%;
+  width: 70%;
   height: 98%;
   position: absolute;
   background-color: #fff;
