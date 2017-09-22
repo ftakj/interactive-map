@@ -54,7 +54,11 @@ var Location = function(data) {
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
   + clientSecret + '&v=' + foursquaredate + '&query=' + this.title;
   // Generate foursquare API request using JQuery's .getJSON method
-	$.getJSON(foursquareURL).done(function(data) {
+	$.ajax({
+    async: false,
+    url: foursquareURL,
+    dataType: "json",
+    success: (function(data) {
 		var results = data.response.venues[0];
 		self.url = results.url;
 		self.street = results.location.formattedAddress[0];
@@ -80,9 +84,13 @@ var Location = function(data) {
     } else {
       self.herenow = self.herenow + " checked in via foursquare";
     }
-	}).fail(function() {
-		alert("There was an error. Please try again");
-	});
+	})
+});
+  console.log(self.url);
+  this.locationInfo = '<div class="url">' + "Website: " + '<a href="' + self.url +'">' + self.url + "</a></div>" +
+        '<div class="street">' + "Located at: " + self.street + "</div>" +
+        '<div class="city">' + "City of: " + self.city + "</div>" +
+        '<div class="phone">' + "Phone number: " + self.phone + "</div>";
 
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.lat, this.lng),
@@ -142,6 +150,7 @@ var ViewModel = function() {
                 if (markerItem.title == filter) {
                   // Set marker to show on map
                   markerItem.show(true);
+                  markerItem.url;
                   return markerItem;
                 } else {
                   markerItem.show(false);
