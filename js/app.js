@@ -166,6 +166,7 @@ var ViewModel = function() {
                   // Set marker to show on map
                   markerItem.show(true);
                   markerItem.showInfo(true);
+                  markerItem.bounce();
                   return markerItem;
                 } else {
                   markerItem.show(false);
