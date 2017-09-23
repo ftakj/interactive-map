@@ -92,7 +92,7 @@ var Location = function(data) {
         '<div class="phone">' + self.phone + '</div>' +
         '<div class="checkedIn">' + self.herenow + '</div>' +
         '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:103px;height:32px;" /></a></div>' +
-        '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:103px;height:32px;" /></a></div>' +
+        '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:103px;height:32px;" /></a></div><br></br>' +
         '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
 
   this.marker = new google.maps.Marker({
@@ -110,6 +110,17 @@ var Location = function(data) {
   return true;
 }, this);
 
+this.marker.addListener('click', function(){
+
+  self.marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function() {
+      self.marker.setAnimation(null);
+  }, 3000);
+});
+
+  this.bounce = function(chosenMarker) {
+  google.maps.event.trigger(self.marker, 'click');
+};
   this.name = ko.observable('Map of Anaheim');
 }
 
