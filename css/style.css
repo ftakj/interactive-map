@@ -26,20 +26,32 @@ h2, h3 {
 
 #menu {
   height: 98%;
-  position: absolute;
-  background-color: #eeeeee;
-  width: 29.5%;
+  background-color: #fff;
+  width: 35%;
+  position: fixed;
   display: inline-block;
   z-index: 5000;
 }
 
+select {
+  width: 60%;
+  margin-left: 10px;
+}
+
+button {
+  background-color: #1e90ff;
+  border-radius: 10px;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+
 #map {
   overflow-y: auto;
-  width: 100%;
+  width: 98%;
   height: 98%;
-  position: absolute;
   background-color: #fff;
-  float: left;
+  float: right;
   display: inline-block;
 }
 
@@ -60,10 +72,10 @@ h2, h3 {
 }
 .close{
   background:none;
-  position:absolute;
+  display: inline;
   top:0px;
   float: right;
-  padding:7px 15px 0px 15px;
+  margin:7px 15px 0px 15px;
   color:#000;
   border:0;
   font-size:3em;
