@@ -1,3 +1,24 @@
+// Load Jquery code to hide menu
+$( document ).ready(function() {
+
+$( ".close" ).hide();
+$( "#menu" ).hide();
+$( ".hamburger" ).click(function() {
+$( "#menu" ).slideToggle( "fast", function() {
+$( ".hamburger" ).hide();
+$( ".close" ).show();
+});
+});
+
+$( ".close" ).click(function() {
+$( "#menu" ).slideToggle( "fast", function() {
+$( ".close" ).hide();
+$( ".hamburger" ).show();
+});
+});
+
+});
+
 //date to use with Foursquare api calls
 var foursquaredate;
 var clientID;
