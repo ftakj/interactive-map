@@ -3,25 +3,25 @@ html, body, .container {
   margin: none;
 }
 
+h1 {
+  display: inline-block;
+  font-size: 24px;
+}
+
 h2, h3 {
   margin: 1px;
 }
 
-.twitter {
-  margin: 5px 10px;
-  float: left;
+.url {
+  margin-top: 10px;
 }
 
-.url {
-  margin: 5px 10px;
-  float: left;
-  clear: both;
+.twitter {
+  margin-top: 10px;
 }
 
 .instagram {
-  margin: 5px 10px;
-  float: left;
-  clear: right;
+  margin-top: 10px;
 }
 
 #menu {
@@ -34,7 +34,7 @@ h2, h3 {
 }
 
 select {
-  width: 60%;
+  width: 30%;
   margin-left: 10px;
 }
 
