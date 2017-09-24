@@ -9,16 +9,17 @@
     <title>My Neighbordhood Map</title>
   </head>
   <body>
+    <h1 data-bind="text: name" align="center"></h1>
   <div class="container">
     <button class="hamburger">&#9776;</button>
+
     <div id="menu">
-      <button class="close">&#735;</button>
-      <h1 data-bind="text: name" align="center"></h1>
+<button class="close">&#735;</button>
 <select data-bind="options: filters, value: filter" align="center"></select>
 
 <div data-bind="foreach: filteredMarkers">
     <br></br>
-    <div id="foursquareInfographic" align="center">
+    <div id="foursquareInfographic">
       <button data-bind="text: title, click: bounce"></button>
       <div id="foursquareURL" data-bind="html: locationInfo, visible: showInfo" align="center"></div>
     </div>
