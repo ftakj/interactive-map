@@ -3,11 +3,6 @@ html, body, .container {
   margin: none;
 }
 
-h1 {
-  display: inline-block;
-  font-size: 24px;
-}
-
 h2, h3 {
   margin: 1px;
 }
@@ -31,25 +26,27 @@ h2, h3 {
   position: fixed;
   display: inline-block;
   z-index: 5000;
+  top: 0;
 }
 
 select {
-  width: 30%;
+  width: 90%;
   margin-left: 10px;
 }
 
 button {
   background-color: #1e90ff;
   border-radius: 10px;
-  font-size: 20px;
+  max-width: 100px;
   color: white;
   margin-bottom: 20px;
+  margin-left: 5px;
 }
 
 #map {
   overflow-y: auto;
   width: 98%;
-  height: 98%;
+  height: 68%;
   background-color: #fff;
   float: right;
   display: inline-block;
@@ -58,8 +55,8 @@ button {
 .hamburger{
   background:none;
   position:absolute;
-  top:0;
-  left:0;
+  top:10px;
+  left:10px;
   line-height:45px;
   padding:5px 15px 0px 15px;
   color:#000;
@@ -73,7 +70,7 @@ button {
 .close{
   background:none;
   display: inline;
-  top:0px;
+  top:10px;
   float: right;
   margin:7px 15px 0px 15px;
   color:#000;
