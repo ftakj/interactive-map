@@ -3,21 +3,39 @@ html, body, .container {
   margin: none;
 }
 
-.Hide {
-  display: none;
+h2, h3 {
+  margin: 1px;
+}
+
+.twitter {
+  margin: 5px 10px;
+  float: left;
+}
+
+.url {
+  margin: 5px 10px;
+  float: left;
+  clear: both;
+}
+
+.instagram {
+  margin: 5px 10px;
+  float: left;
+  clear: right;
 }
 
 #menu {
   height: 98%;
-  position: relative;
+  position: absolute;
   background-color: #eeeeee;
   width: 29.5%;
   display: inline-block;
+  z-index: 5000;
 }
 
 #map {
   overflow-y: auto;
-  width: 70%;
+  width: 100%;
   height: 98%;
   position: absolute;
   background-color: #fff;
@@ -25,6 +43,33 @@ html, body, .container {
   display: inline-block;
 }
 
-#error-code {
-  color: red;
+.hamburger{
+  background:none;
+  position:absolute;
+  top:0;
+  left:0;
+  line-height:45px;
+  padding:5px 15px 0px 15px;
+  color:#000;
+  border:0;
+  font-size:1.4em;
+  font-weight:bold;
+  cursor:pointer;
+  outline:none;
+  z-index:5001;
+}
+.close{
+  background:none;
+  position:absolute;
+  top:0px;
+  float: right;
+  padding:7px 15px 0px 15px;
+  color:#000;
+  border:0;
+  font-size:3em;
+  line-height:65px;
+  font-weight:bold;
+  cursor:pointer;
+  outline:none;
+  z-index:5001;
 }
