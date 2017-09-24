@@ -13,14 +13,14 @@
     <button class="hamburger">&#9776;</button>
     <div id="menu">
       <button class="close">&#735;</button>
-      <h1 data-bind="text: name"></h1>
-<select data-bind="options: filters, value: filter"></select>
+      <h1 data-bind="text: name" align="center"></h1>
+<select data-bind="options: filters, value: filter" align="center"></select>
 
 <div data-bind="foreach: filteredMarkers">
     <br></br>
-    <div id="foursquareInfographic">
+    <div id="foursquareInfographic" align="center">
       <button data-bind="text: title, click: bounce"></button>
-      <div id="foursquareURL" data-bind="html: locationInfo, visible: showInfo"></div>
+      <div id="foursquareURL" data-bind="html: locationInfo, visible: showInfo" align="center"></div>
     </div>
   </div></div>
     <div id="map">
