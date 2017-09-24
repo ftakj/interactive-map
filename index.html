@@ -10,15 +10,17 @@
   </head>
   <body>
   <div class="container">
+    <button class="hamburger">&#9776;</button>
     <div id="menu">
-      <h2 data-bind="text: name"></h2>
+      <button class="close">&#735;</button>
+      <h1 data-bind="text: name"></h1>
 <select data-bind="options: filters, value: filter"></select>
 
 <div data-bind="foreach: filteredMarkers">
     <br></br>
     <div id="foursquareInfographic">
-      <h2 data-bind="text: title"></h2>
-      <span id="foursquareURL" data-bind="html: locationInfo"></span>
+      <button data-bind="text: title, click: bounce"></button>
+      <div id="foursquareURL" data-bind="html: locationInfo, visible: showInfo"></div>
     </div>
   </div></div>
     <div id="map">
