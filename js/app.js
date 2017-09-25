@@ -71,6 +71,7 @@ var Location = function(data) {
 	this.phone = "";
   this.show = ko.observable(true);
   this.showInfo = ko.observable(true);
+  var latLng = [data.lat, data.lng]
   // Generate foursquare API URL
 	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
@@ -139,8 +140,15 @@ this.marker.addListener('click', function(){
   }, 3000);
 });
 
+  this.resetMap = function() {
+    map.setCenter({lat:33.812092, lng: -117.918974});
+    map.setZoom(13);
+  }
+
   this.bounce = function(chosenMarker) {
   google.maps.event.trigger(self.marker, 'click');
+  map.setCenter(self.marker.position);
+  map.setZoom(17);
 };
   this.name = ko.observable('Map of Anaheim');
 }
@@ -178,6 +186,7 @@ var ViewModel = function() {
           self.markerList().forEach(function(markerItem){
 				        markerItem.show(true);
                 markerItem.showInfo(false);
+                markerItem.resetMap();
 			});
           var result = ko.observable( this.markerList());
             return result();
