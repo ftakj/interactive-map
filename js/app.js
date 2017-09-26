@@ -133,10 +133,14 @@ this.marker.addListener('click', function(){
         '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
         '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
   var infowindow = new google.maps.InfoWindow({
-    content: locationInfo
+    content: locationInfo,
+    maxWidth: 150
   });
   console.log(infowindow);
   infowindow.open(map, this);
+  google.maps.event.addDomListener(window, 'resize', function() {
+          infowindow.open(map, this);
+        });
   self.marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
       self.marker.setAnimation(null);
