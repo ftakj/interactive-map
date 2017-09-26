@@ -11,9 +11,7 @@ h2, h3 {
   margin: 1px;
 }
 
-.url {
-  margin-top: 10px;
-}
+.url {}
 
 .twitter {
   margin-top: 10px;
@@ -35,7 +33,7 @@ h2, h3 {
 }
 
 select {
-  width: 80%;
+  width: 78%;
   margin-left: 10px;
   margin-bottom: 20px;
 }
@@ -74,10 +72,8 @@ button {
 }
 .close{
   background:none;
-  display: inline;
   top:10px;
   float: right;
-  margin:7px 15px 0px 15px;
   color:#000;
   border:0;
   font-size:3em;
@@ -86,4 +82,8 @@ button {
   cursor:pointer;
   outline:none;
   z-index:5001;
+}
+
+#filterarea {
+  margin-top: 3em;
 }
