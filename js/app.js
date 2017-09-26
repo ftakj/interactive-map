@@ -75,6 +75,7 @@ var Location = function(data) {
 	this.phone = "";
   // When this.show is true the marker will show on map
   this.show = ko.observable(true);
+  this.showInfo = ko.observable(true);
   // Generate foursquare API URL
 	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
@@ -118,10 +119,9 @@ var Location = function(data) {
     title: this.title,
     map: map,
   });
-
-this.infowindow = new google.maps.InfoWindow({content: self.locationInfo});
-
+// When marker is clicked run the following function
 this.marker.addListener('click', function(){
+  // Save foursquare info to the locationInfo variable
   var locationInfo = '<div class="street">' + self.street + '</div>' +
         '<div class="city">' + self.city + '</div>' +
         '<div class="phone">' + self.phone + '</div>' +
@@ -129,42 +129,40 @@ this.marker.addListener('click', function(){
         '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
         '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
         '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
+  // save infowindow variable using the locationInfo data
   var infowindow = new google.maps.InfoWindow({
     content: locationInfo,
     maxWidth: 150
   });
-  console.log(infowindow);
+  // open infowindow using data passed through the keyword this
   infowindow.open(map, this);
-  google.maps.event.addDomListener(window, 'resize', function() {
-          infowindow.open(map, this);
-        });
+  // set animation for the marker to bounce when clicked for 1.5 seconds
   self.marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
       self.marker.setAnimation(null);
-  }, 1500);
+    }, 1500);
 }, this);
-
+  // reset map to display all markers when filter goes back to locations
   this.resetMap = function() {
     map.setCenter({lat:33.812092, lng: -117.918974});
     map.setZoom(13);
   }
-
+  // bounce marker and set center of map to the position of marker
   this.bounce = function(chosenMarker) {
   google.maps.event.trigger(self.marker, 'click');
   map.setCenter(self.marker.position);
   map.setZoom(17);
-};
-  this.name = ko.observable('Map of Anaheim');
+  };
 };
 
 var ViewModel = function() {
     var self = this;
-
+    // Create map with a starting center location
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 33.812092, lng: -117.918974},
       zoom: 13
     });
-
+    // Create empy array to pass marker data into
     this.markerList = ko.observableArray([]);
     // Store clientID and secret for foursquare API
     clientID = "JTNSWR0O4211C3F5BO0NP1SBLEQR0FH2APFYYPWLXD1OPFLD";
@@ -183,31 +181,35 @@ var ViewModel = function() {
     this.name = ko.observable('Map of Anaheim');
     // Assign the filters array
     self.filter = ko.observable();
+    // How to handle filtered markers with computed function
     self.filteredMarkers = ko.computed(function() {
         var filter = self.filter();
-        // If filter is empty or set to Locations, return all markers
+        // If filter is set to Locations, return all markers
         if (filter == "Locations") {
           self.markerList().forEach(function(markerItem){
 				        markerItem.show(true);
+                markerItem.showInfo(false);
                 markerItem.resetMap();
-			});
+			    });
           var result = ko.observable( this.markerList());
-            return result();
+          return result();
         } else {
-            return ko.utils.arrayFilter(self.markerList(), function(markerItem) {
-                if (markerItem.title == filter) {
-                  // Set marker to show on map
-                  markerItem.show(true);
-                  markerItem.bounce();
-                  return markerItem;
-                } else {
+          return ko.utils.arrayFilter(self.markerList(), function(markerItem) {
+            if (markerItem.title == filter) {
+              // Set marker to show and bounce on map
+              markerItem.show(true);
+              markerItem.showInfo(true);
+              markerItem.bounce();
+              return markerItem;
+            } else {
                   markerItem.show(false);
+                  markerItem.showInfo(false);
                 }
                        });
                    }
                }, self);
              }
-
+// When loadApp is passed from the callback, run the ViewModel
 function loadApp() {
   ko.applyBindings(new ViewModel());
 }
