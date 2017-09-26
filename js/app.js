@@ -217,6 +217,11 @@ let ViewModel = function() {
         }
     }, self);
 };
+
+// Run mapError function if map fails to load
+function mapError() {
+    alert("There was an error with the Google Maps API, please reload");
+};
 // When loadApp is passed from the callback, run the ViewModel
 function loadApp() {
     ko.applyBindings(new ViewModel());
