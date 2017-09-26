@@ -129,7 +129,7 @@ let Location = function(data) {
     }, this);
     // When marker is clicked run the following function
     this.marker.addListener('click', function(){
-    // Save foursquare info to the locationInfo letiable
+    // Save foursquare info to the locationInfo variable
     let locationInfo = '<div class="street">' + self.street + '</div>' +
         '<div class="city">' + self.city + '</div>' +
         '<div class="phone">' + self.phone + '</div>' +
@@ -139,7 +139,7 @@ let Location = function(data) {
         '<div class="instagram"><a href="http://instagram.com/' + self.instagram +
         '"><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
         '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
-  // save infowindow letiable using the locationInfo data
+  // save infowindow variable using the locationInfo data
   let infowindow = new google.maps.InfoWindow({
     content: locationInfo,
     maxWidth: 150
@@ -150,7 +150,7 @@ let Location = function(data) {
   self.marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
       self.marker.setAnimation(null);
-    }, 1500);
+    }, 1400);
 }, this);
   // reset map to display all markers when filter goes back to locations
   this.resetMap = function() {
