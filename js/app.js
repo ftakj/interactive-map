@@ -120,7 +120,7 @@ let Location = function(data) {
   });
   // Only show selected marker, set other markers to null (don't show)
   this.selectedMarker = ko.computed(function() {
-    if(this.show() == true) {
+    if(this.show() === true) {
       this.marker.setMap(map);
     } else {
       this.marker.setMap(null);
