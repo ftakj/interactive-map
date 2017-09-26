@@ -53,7 +53,7 @@ var markerData = [
         lng: -117.923157,
       }
       ];
-var filters = ["Choose a destination", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
+var filters = ["Locations", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
 
 // Define Location class which will be used to link markers to foursquare
 var Location = function(data) {
@@ -77,11 +77,7 @@ var Location = function(data) {
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
   + clientSecret + '&v=' + foursquaredate + '&query=' + this.title;
   // Generate foursquare API request using JQuery's .getJSON method
-	$.ajax({
-    async: false,
-    url: foursquareURL,
-    dataType: "json",
-    success: (function(data) {
+	$.getJSON(foursquareURL).done(function(data) {
 		var results = data.response.venues[0];
 		self.url = results.url;
 		self.street = results.location.formattedAddress[0];
@@ -107,15 +103,9 @@ var Location = function(data) {
     } else {
       self.herenow = self.herenow;
     }
-	})
-});
-  this.locationInfo = '<div class="street">' + self.street + '</div>' +
-        '<div class="city">' + self.city + '</div>' +
-        '<div class="phone">' + self.phone + '</div>' +
-        '<div class="checkedIn">' + self.herenow + '</div>' +
-        '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
-        '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
-        '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
+	}).fail(function() {
+		alert("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
+	});
 
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.lat, this.lng),
@@ -132,13 +122,26 @@ var Location = function(data) {
   return true;
 }, this);
 
-this.marker.addListener('click', function(){
+this.infowindow = new google.maps.InfoWindow({content: self.locationInfo});
 
+this.marker.addListener('click', function(){
+  var locationInfo = '<div class="street">' + self.street + '</div>' +
+        '<div class="city">' + self.city + '</div>' +
+        '<div class="phone">' + self.phone + '</div>' +
+        '<div class="checkedIn">' + self.herenow + '</div>' +
+        '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
+        '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
+        '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
+  var infowindow = new google.maps.InfoWindow({
+    content: locationInfo
+  });
+  console.log(infowindow);
+  infowindow.open(map, this);
   self.marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
       self.marker.setAnimation(null);
-  }, 3000);
-});
+  }, 2000);
+}, this);
 
   this.resetMap = function() {
     map.setCenter({lat:33.812092, lng: -117.918974});
@@ -151,7 +154,7 @@ this.marker.addListener('click', function(){
   map.setZoom(17);
 };
   this.name = ko.observable('Map of Anaheim');
-}
+};
 
 var ViewModel = function() {
     var self = this;
@@ -181,8 +184,8 @@ var ViewModel = function() {
     self.filter = ko.observable();
     self.filteredMarkers = ko.computed(function() {
         var filter = self.filter();
-        // If filter is empty or set to choose a destination, return all markers
-        if (filter == "Choose a destination") {
+        // If filter is empty or set to Locations, return all markers
+        if (filter == "Locations") {
           self.markerList().forEach(function(markerItem){
 				        markerItem.show(true);
                 markerItem.showInfo(false);
