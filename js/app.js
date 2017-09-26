@@ -1,21 +1,22 @@
 // Load Jquery code to hide menu
-$( document ).ready(function() {
-
-$( ".close" ).hide();
-$( "#menu" ).hide();
-$( ".hamburger" ).click(function() {
-$( "#menu" ).slideToggle( "fast", function() {
-$( ".hamburger" ).hide();
-$( ".close" ).show();
-});
-});
-
-$( ".close" ).click(function() {
-$( "#menu" ).slideToggle( "fast", function() {
-$( ".close" ).hide();
-$( ".hamburger" ).show();
-});
-});
+$(document).ready(function() {
+// Automatically hides the close div and menu
+  $(".close").hide();
+  $("#menu").hide();
+// When hamburger is clicked slide open menu
+  $(".hamburger").click(function() {
+    $("#menu").slideToggle( "fast", function() {
+      $(".hamburger").hide();
+      $(".close").show();
+    });
+  });
+// When close is clicked slide the menu closed
+  $(".close").click(function() {
+    $("#menu").slideToggle( "fast", function() {
+      $(".close").hide();
+      $(".hamburger").show();
+    });
+  });
 
 });
 
@@ -26,6 +27,7 @@ var clientSecret;
 var map;
 var $map = $('#map');
 
+// Create marker data to display on map
 var markerData = [
       {
         title: 'Disneyland',
@@ -53,6 +55,8 @@ var markerData = [
         lng: -117.923157,
       }
       ];
+
+// Create filter array to use as a filter against marker data
 var filters = ["Locations", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
 
 // Define Location class which will be used to link markers to foursquare
@@ -69,9 +73,8 @@ var Location = function(data) {
   this.twitter = "";
   this.instagram = "";
 	this.phone = "";
+  // When this.show is true the marker will show on map
   this.show = ko.observable(true);
-  this.showInfo = ko.observable(true);
-  var latLng = [data.lat, data.lng]
   // Generate foursquare API URL
 	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
   this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
@@ -97,30 +100,24 @@ var Location = function(data) {
 		} else {
 			self.instagram = self.instagram;
 		}
+    // Display how many users are checked in using Foursquare
     self.herenow = results.hereNow.summary;
     if(self.herenow === "Nobody here"){
       self.herenow = "No one is currently checked in";
     } else {
       self.herenow = self.herenow;
     }
+    // Set up fail method to alert users if foursquare call fails
 	}).fail(function() {
-		alert("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
+		alert("There was an error with foursquare, please reload");
 	});
-
+  // Create markers to display on map
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.lat, this.lng),
     animation: google.maps.Animation.DROP,
     title: this.title,
     map: map,
   });
-  this.selectedMarker = ko.computed(function() {
-  if(this.show() == true) {
-    this.marker.setMap(map);
-  } else {
-    this.marker.setMap(null);
-  }
-  return true;
-}, this);
 
 this.infowindow = new google.maps.InfoWindow({content: self.locationInfo});
 
@@ -144,7 +141,7 @@ this.marker.addListener('click', function(){
   self.marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
       self.marker.setAnimation(null);
-  }, 2000);
+  }, 1500);
 }, this);
 
   this.resetMap = function() {
@@ -192,7 +189,6 @@ var ViewModel = function() {
         if (filter == "Locations") {
           self.markerList().forEach(function(markerItem){
 				        markerItem.show(true);
-                markerItem.showInfo(false);
                 markerItem.resetMap();
 			});
           var result = ko.observable( this.markerList());
@@ -202,12 +198,10 @@ var ViewModel = function() {
                 if (markerItem.title == filter) {
                   // Set marker to show on map
                   markerItem.show(true);
-                  markerItem.showInfo(true);
                   markerItem.bounce();
                   return markerItem;
                 } else {
                   markerItem.show(false);
-                  markerItem.showInfo(false);
                 }
                        });
                    }
