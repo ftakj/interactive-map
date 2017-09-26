@@ -135,9 +135,9 @@ let Location = function(data) {
         '<div class="phone">' + self.phone + '</div>' +
         '<div class="checkedIn">' + self.herenow + '</div>' +
         '<div class="twitter"><a href="http://twitter.com/' + self.twitter +
-        '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
+        '"><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
         '<div class="instagram"><a href="http://instagram.com/' + self.instagram +
-        '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
+        '"><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
         '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
   // save infowindow letiable using the locationInfo data
   let infowindow = new google.maps.InfoWindow({
