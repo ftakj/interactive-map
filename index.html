@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/house.png">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <title>My Neighbordhood Map</title>
-  </head>
-  <body>
-    <h1 data-bind="text: name" align="center"></h1>
-  <div class="container">
-    <span class="hamburger">&#9776;</span>
-
-    <div id="menu">
-<span class="close">&#735;</span>
-<div id="filterarea">
-<select data-bind="options: filters, value: filter" align="center"></select>
-<div data-bind="foreach: filteredMarkers">
-      <button data-bind="text: title, click: bounce"></button></div>
-    </div>
-  </div></div>
-    <div id="map">
-  </div>
-  <script src='js/libs/knockout-3.4.2.js'></script>
-  <script src='js/app.js'></script>
-  <script src="js/libs/jquery.min.js"></script>
-    <script async defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz4dm2Y0kA-xlqglKj-eFd6KEb0p9WOTM&v=3&callback=loadApp"
-          onerror="mapError()">
-      </script>
-  </body>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href="images/house.png">
+      <link rel="stylesheet" href="css/style.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <title>My Neighbordhood Map</title>
+   </head>
+   <body>
+      <h1 data-bind="text: name" align="center"></h1>
+      <div class="container">
+         <span class="hamburger">&#9776;</span>
+         <div id="menu">
+            <span class="close">&#735;</span>
+            <div id="filterarea">
+               <select data-bind="options: filters, value: filter" align="center"></select>
+               <div data-bind="foreach: filteredMarkers">
+                  <button data-bind="text: title, click: bounce"></button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="map">
+      </div>
+      <script src='js/libs/knockout-3.4.2.js'></script>
+      <script src='js/app.js'></script>
+      <script src="js/libs/jquery.min.js"></script>
+      <script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz4dm2Y0kA-xlqglKj-eFd6KEb0p9WOTM&v=3&callback=loadApp"
+         onerror="mapError()"></script>
+   </body>
