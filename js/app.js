@@ -25,7 +25,7 @@ let foursquaredate;
 let clientID;
 let clientSecret;
 let map;
-const $map = $('#map');
+let $map = $('#map');
 
 // Create marker data to display on map
 const markerData = [
@@ -183,10 +183,6 @@ let ViewModel = function() {
     markerData.forEach(function(markerItem){
 		self.markerList.push( new Location(markerItem));
 	});
-    // Set timeout error message in case map fails to load
-    setTimeout(function(){
-        $map.append('<h2 align="center">' + "Failed to load map. Please wait a few seconds and try again" + '</h2>');
-    }, 1500);
     // Set the name of the map
     this.name = ko.observable('Map of Anaheim');
     // Assign the filters array
