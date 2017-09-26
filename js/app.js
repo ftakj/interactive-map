@@ -21,14 +21,14 @@ $(document).ready(function() {
 });
 
 //date to use with Foursquare api calls
-var foursquaredate;
-var clientID;
-var clientSecret;
-var map;
-var $map = $('#map');
+let foursquaredate;
+let clientID;
+let clientSecret;
+let map;
+const $map = $('#map');
 
 // Create marker data to display on map
-var markerData = [
+const markerData = [
       {
         title: 'Disneyland',
         lat: 33.812092,
@@ -57,11 +57,11 @@ var markerData = [
       ];
 
 // Create filter array to use as a filter against marker data
-var filters = ["Locations", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
+const filters = ["Locations", "Disneyland", "California Adventure", "Angel Stadium", "Anaheim Convention Center", "Downtown Disney"];
 
 // Define Location class which will be used to link markers to foursquare
-var Location = function(data) {
-	var self = this;
+let Location = function(data) {
+	let self = this;
 	this.title = data.title;
 	this.lat = data.lat;
 	this.lng = data.lng;
@@ -75,14 +75,13 @@ var Location = function(data) {
 	this.phone = "";
   // When this.show is true the marker will show on map
   this.show = ko.observable(true);
-  this.showInfo = ko.observable(true);
   // Generate foursquare API URL
-	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
-  this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret='
-  + clientSecret + '&v=' + foursquaredate + '&query=' + this.title;
+	let foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+
+  this.lat + ',' + this.lng + '&client_id=' + clientID + '&client_secret=' +
+  clientSecret + '&v=' + foursquaredate + '&query=' + this.title;
   // Generate foursquare API request using JQuery's .getJSON method
 	$.getJSON(foursquareURL).done(function(data) {
-		var results = data.response.venues[0];
+		let results = data.response.venues[0];
 		self.url = results.url;
 		self.street = results.location.formattedAddress[0];
     self.city = results.location.formattedAddress[1];
@@ -119,18 +118,29 @@ var Location = function(data) {
     title: this.title,
     map: map,
   });
-// When marker is clicked run the following function
-this.marker.addListener('click', function(){
-  // Save foursquare info to the locationInfo variable
-  var locationInfo = '<div class="street">' + self.street + '</div>' +
+  // Only show selected marker, set other markers to null (don't show)
+  this.selectedMarker = ko.computed(function() {
+    if(this.show() == true) {
+      this.marker.setMap(map);
+    } else {
+      this.marker.setMap(null);
+    }
+    return true;
+    }, this);
+    // When marker is clicked run the following function
+    this.marker.addListener('click', function(){
+    // Save foursquare info to the locationInfo letiable
+    let locationInfo = '<div class="street">' + self.street + '</div>' +
         '<div class="city">' + self.city + '</div>' +
         '<div class="phone">' + self.phone + '</div>' +
         '<div class="checkedIn">' + self.herenow + '</div>' +
-        '<div class="twitter"><a href="http://twitter.com/' + self.twitter + '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
-        '<div class="instagram"><a href="http://instagram.com/' + self.instagram + '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
+        '<div class="twitter"><a href="http://twitter.com/' + self.twitter +
+        '" data-show-count="true" ><img src="images/twitter.png" alt="Twitter icon" style="width:70px;" /></a></div>' +
+        '<div class="instagram"><a href="http://instagram.com/' + self.instagram +
+        '" data-show-count="true" ><img src="images/instagram.png" alt="Instagram icon" style="width:70px;" /></a></div><br></br>' +
         '<div class="url"><a href="' + self.url +'"><h3>' + self.title + " Website" + '</h3></a></div>' ;
-  // save infowindow variable using the locationInfo data
-  var infowindow = new google.maps.InfoWindow({
+  // save infowindow letiable using the locationInfo data
+  let infowindow = new google.maps.InfoWindow({
     content: locationInfo,
     maxWidth: 150
   });
@@ -146,7 +156,7 @@ this.marker.addListener('click', function(){
   this.resetMap = function() {
     map.setCenter({lat:33.812092, lng: -117.918974});
     map.setZoom(13);
-  }
+  };
   // bounce marker and set center of map to the position of marker
   this.bounce = function(chosenMarker) {
   google.maps.event.trigger(self.marker, 'click');
@@ -155,8 +165,8 @@ this.marker.addListener('click', function(){
   };
 };
 
-var ViewModel = function() {
-    var self = this;
+let ViewModel = function() {
+    let self = this;
     // Create map with a starting center location
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 33.812092, lng: -117.918974},
@@ -183,32 +193,29 @@ var ViewModel = function() {
     self.filter = ko.observable();
     // How to handle filtered markers with computed function
     self.filteredMarkers = ko.computed(function() {
-        var filter = self.filter();
+        let filter = self.filter();
         // If filter is set to Locations, return all markers
         if (filter == "Locations") {
           self.markerList().forEach(function(markerItem){
 				        markerItem.show(true);
-                markerItem.showInfo(false);
                 markerItem.resetMap();
 			    });
-          var result = ko.observable( this.markerList());
+          let result = ko.observable( this.markerList());
           return result();
         } else {
           return ko.utils.arrayFilter(self.markerList(), function(markerItem) {
             if (markerItem.title == filter) {
               // Set marker to show and bounce on map
               markerItem.show(true);
-              markerItem.showInfo(true);
               markerItem.bounce();
               return markerItem;
             } else {
                   markerItem.show(false);
-                  markerItem.showInfo(false);
                 }
                        });
                    }
                }, self);
-             }
+             };
 // When loadApp is passed from the callback, run the ViewModel
 function loadApp() {
   ko.applyBindings(new ViewModel());
